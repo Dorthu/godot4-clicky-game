@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://douy1jwk20w6e"]
+
+[ext_resource type="Texture2D" uid="uid://bwf6u8jribikf" path="res://Tex/woodfloor.png" id="1_eeq0r"]
+[ext_resource type="Texture2D" uid="uid://cxsdnbuksjbfh" path="res://Tex/ceiling.png" id="2_hrtux"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gplnf"]
+size = Vector3(10, 0.2, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jck0u"]
+albedo_texture = ExtResource("1_eeq0r")
+uv1_scale = Vector3(3, 3, 3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rp0s1"]
+material = SubResource("StandardMaterial3D_jck0u")
+size = Vector2(10, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ks8gm"]
+albedo_texture = ExtResource("2_hrtux")
+uv1_scale = Vector3(3, 3, 3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3enok"]
+material = SubResource("StandardMaterial3D_ks8gm")
+size = Vector2(10, 5)
+
+[node name="Floor" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_gplnf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_rp0s1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 5, 0)
+mesh = SubResource("PlaneMesh_3enok")
