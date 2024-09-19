@@ -1,0 +1,132 @@
+[gd_scene load_steps=16 format=3 uid="uid://82kjxxvy3w5c"]
+
+[ext_resource type="PackedScene" uid="uid://douy1jwk20w6e" path="res://Pieces/Floor.tscn" id="1_fwesq"]
+[ext_resource type="PackedScene" uid="uid://ia48gke7ha7d" path="res://Pieces/Wall.tscn" id="2_xuht4"]
+[ext_resource type="Texture2D" uid="uid://ces70fi5865nr" path="res://Tex/dresser.png" id="3_0vxuw"]
+[ext_resource type="Script" path="res://Concepts/Description.gd" id="4_6gqco"]
+[ext_resource type="Texture2D" uid="uid://bt5dgumcnuph5" path="res://Tex/plant.png" id="5_kkv2v"]
+[ext_resource type="PackedScene" uid="uid://cupn40w2bar1w" path="res://Pieces/Player.tscn" id="5_n4q6v"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_jpabv"]
+vertices = PackedVector3Array(-0.5, 0.5, -1.5, -0.25, 0.5, -1, 0.25, 0.5, -2.25, -2, 0.5, 1.5, -2.25, 0.5, -0.25, -3.25, 0.5, -0.25, -4.25, 0.5, 1.5, -4.25, 0.5, -2.25, -3.5, 0.5, -1.25, -0.5, 0.5, -0.25, 4.5, 0.5, 1.5, 4.5, 0.5, -2.25)
+polygons = [PackedInt32Array(0, 2, 1), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(0, 8, 2), PackedInt32Array(2, 8, 7), PackedInt32Array(8, 5, 7), PackedInt32Array(7, 5, 6), PackedInt32Array(1, 2, 9), PackedInt32Array(9, 2, 11), PackedInt32Array(9, 11, 10), PackedInt32Array(4, 9, 3), PackedInt32Array(3, 9, 10)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oqq30"]
+transparency = 1
+albedo_texture = ExtResource("3_0vxuw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rnsgc"]
+material = SubResource("StandardMaterial3D_oqq30")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3m5eg"]
+size = Vector3(2, 2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y2f1k"]
+size = Vector3(2.8, 2.19, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkpig"]
+transparency = 1
+albedo_texture = ExtResource("5_kkv2v")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_au8jc"]
+material = SubResource("StandardMaterial3D_pkpig")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rcmfa"]
+size = Vector3(1, 1, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oxpbp"]
+size = Vector3(1.8, 1, 1.3)
+
+[node name="CompositeRoom" type="Node3D"]
+
+[node name="Room1" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_jpabv")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Room1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.40162, 1.48161, 0)
+
+[node name="Floor" parent="Room1" instance=ExtResource("1_fwesq")]
+
+[node name="Wall" parent="Room1" instance=ExtResource("2_xuht4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -3)
+
+[node name="Wall2" parent="Room1" instance=ExtResource("2_xuht4")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 2.5, -3)
+
+[node name="Wall3" parent="Room1" instance=ExtResource("2_xuht4")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 2.5, -3)
+
+[node name="Dresser" type="Node3D" parent="Room1"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 2.5, -3)
+
+[node name="Obstacle" type="StaticBody3D" parent="Room1/Dresser"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, -1.5, 7)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room1/Dresser/Obstacle"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("PlaneMesh_rnsgc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room1/Dresser/Obstacle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+shape = SubResource("BoxShape3D_3m5eg")
+
+[node name="Area3D" type="Area3D" parent="Room1/Dresser"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, -1.5, 6.93184)
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("4_6gqco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room1/Dresser/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111462, 0.113129, 0.163171)
+shape = SubResource("BoxShape3D_y2f1k")
+
+[node name="Description" type="Label3D" parent="Room1/Dresser/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.747617, 0)
+visible = false
+text = "An old dresser.
+The drawers are full of junk."
+
+[node name="Plant" type="Node3D" parent="Room1"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Room1/Plant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room1/Plant/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1, 0, 0)
+mesh = SubResource("PlaneMesh_au8jc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room1/Plant/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.5, 0)
+shape = SubResource("BoxShape3D_rcmfa")
+
+[node name="Area3D" type="Area3D" parent="Room1/Plant"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("4_6gqco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room1/Plant/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 0.05)
+shape = SubResource("BoxShape3D_oxpbp")
+
+[node name="Description" type="Label3D" parent="Room1/Plant/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.6, 0)
+visible = false
+text = "The noble houseplant.
+It sits, and it waits."
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.183, 4)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, -6, 4, 5)
+light_energy = 0.2
+light_indirect_energy = 0.1
+
+[node name="Player" parent="." instance=ExtResource("5_n4q6v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.419497, 0)
+useFlashlight = true
+
+[connection signal="body_entered" from="Room1/Dresser/Area3D" to="Room1/Dresser/Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Room1/Dresser/Area3D" to="Room1/Dresser/Area3D" method="_on_body_exited"]
+[connection signal="body_entered" from="Room1/Plant/Area3D" to="Room1/Plant/Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Room1/Plant/Area3D" to="Room1/Plant/Area3D" method="_on_body_exited"]

@@ -14,8 +14,6 @@ func _physics_process(delta: float) -> void:
 	# lurch toward the player if there is one
 	counter += delta
 	if	counter > lurch_rate:
-		print("FRAME")
-		print(counter)
 		counter = 0
 		var player = get_node("/root/CompositeRoom/Player")
 		if player:
