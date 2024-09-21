@@ -18,6 +18,7 @@ size = Vector2(1, 1)
 
 [node name="Tentacle" type="RigidBody3D"]
 collision_layer = 4
+collision_mask = 7
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true

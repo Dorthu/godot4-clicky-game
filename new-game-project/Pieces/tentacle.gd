@@ -1,10 +1,18 @@
 extends RigidBody3D
 
+class_name Tentacle
+
 @onready var nav = $NavigationAgent3D
 
 var lurch_speed = 3
 var lurch_rate = 1
 var counter = 0
+var health = 4
+
+func take_damage(damage: int) -> void:
+	health -= damage
+	if health < 1:
+		get_parent().remove_child(self)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -15,7 +23,15 @@ func _physics_process(delta: float) -> void:
 	counter += delta
 	if	counter > lurch_rate:
 		counter = 0
-		var player = get_node("/root/CompositeRoom/Player")
+		
+		# find the player
+		var player = null
+		
+		for c in get_node("/root/").get_children()[0].get_children():
+			if c.name == "Player":
+				player = c
+				break
+		
 		if player:
 			nav.set_target_position(player.position)
 			var next_path_position: Vector3 = nav.get_next_path_position()

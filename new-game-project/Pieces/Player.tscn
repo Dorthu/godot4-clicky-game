@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cupn40w2bar1w"]
+[gd_scene load_steps=9 format=3 uid="uid://cupn40w2bar1w"]
 
 [ext_resource type="Script" path="res://clickPlayer.gd" id="1_i3ris"]
 [ext_resource type="Texture2D" uid="uid://5lfyd3jd8ftk" path="res://Tex/dude.png" id="2_dsyjn"]
+[ext_resource type="AudioStream" uid="uid://c7xl57l64xbeo" path="res://Sounds/gunshot.ogg" id="3_3e314"]
+[ext_resource type="AudioStream" uid="uid://e1h5yadm1trh" path="res://Sounds/footsteps.ogg" id="4_ldwk3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qik3l"]
 height = 1.8
@@ -47,3 +49,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0141078, 1.1341, 0.0869126
 visible = false
 light_energy = 3.04
 light_size = 0.228
+
+[node name="SfxGunshot" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_3e314")
+
+[node name="SfxFootsteps" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_ldwk3")
+parameters/looping = false

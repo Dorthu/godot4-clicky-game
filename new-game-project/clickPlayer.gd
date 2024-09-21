@@ -6,6 +6,9 @@ var movement_target_position: Vector3 = Vector3(0.0,0.0,20.0)
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var flashlight: SpotLight3D = $HoldPoint/Flashlight
 @onready var muzzleFlash: OmniLight3D = $MuzzleFlash
+@onready var sfxGunshot: AudioStreamPlayer3D = $SfxGunshot
+@onready var sfxFootsteps: AudioStreamPlayer3D = $SfxFootsteps
+
 @export var useFlashlight: bool = false
 @export var debugClick: bool = false
 @export var shooty: bool = false
@@ -76,6 +79,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			if shooty:
 				muzzleFlash.show()
 				muzzleFlashCountdown = .05
+				sfxGunshot.play()
+				
+				if collider is PhysicsBody3D:
+					collider.apply_central_impulse((collision["position"] - position).normalized() * 5)
+				if collider is Tentacle:
+					collider.take_damage(1)
 		else:
 			# didn't hit an enemy - move
 			var worldPos = collision["position"]
@@ -84,6 +93,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_movement_target(worldPos)
 
 func set_movement_target(movement_target: Vector3):
+	if not sfxFootsteps.playing:
+		sfxFootsteps.play()
 	navigation_agent.set_target_position(movement_target)
 	print("Moving to ", movement_target)
 
@@ -95,6 +106,7 @@ func _physics_process(delta):
 			muzzleFlash.hide()
 	
 	if navigation_agent.is_navigation_finished():
+		sfxFootsteps.stop()
 		return
 
 	var current_agent_position: Vector3 = global_position
