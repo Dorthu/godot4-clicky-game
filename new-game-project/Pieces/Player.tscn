@@ -35,10 +35,14 @@ mesh = SubResource("CylinderMesh_5602b")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
-[node name="HoldPoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.993857, 0)
+[node name="MouseTracker" type="Node3D" parent="."]
 
-[node name="Flashlight" type="SpotLight3D" parent="HoldPoint"]
+[node name="HoldPoint" type="Node3D" parent="MouseTracker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.994, -0.5)
+
+[node name="Flashlight" type="SpotLight3D" parent="MouseTracker/HoldPoint"]
+
+[node name="Camera3D" type="Camera3D" parent="MouseTracker/HoldPoint"]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.650835, 0)
@@ -55,4 +59,4 @@ stream = ExtResource("3_3e314")
 
 [node name="SfxFootsteps" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_ldwk3")
-parameters/looping = false
+parameters/looping = true

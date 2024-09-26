@@ -5,12 +5,13 @@ var movement_target_position: Vector3 = Vector3(0.0,0.0,20.0)
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
+
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	navigation_agent.path_desired_distance = 0.5
 	navigation_agent.target_desired_distance = 0.5
-
+	
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
 

@@ -4,26 +4,36 @@ var movement_speed: float = 2.0
 var movement_target_position: Vector3 = Vector3(0.0,0.0,20.0)
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var flashlight: SpotLight3D = $HoldPoint/Flashlight
+@onready var mouseTracker: Node3D = $MouseTracker
+@onready var flashlight: SpotLight3D = $MouseTracker/HoldPoint/Flashlight
+@onready var cam: Camera3D = $MouseTracker/HoldPoint/Camera3D
 @onready var muzzleFlash: OmniLight3D = $MuzzleFlash
 @onready var sfxGunshot: AudioStreamPlayer3D = $SfxGunshot
 @onready var sfxFootsteps: AudioStreamPlayer3D = $SfxFootsteps
 
-@export var useFlashlight: bool = false
 @export var debugClick: bool = false
-@export var shooty: bool = false
 
 var debug_ClickPos: MeshInstance3D
 var muzzleFlashCountdown: float = 0
+var inv: Inventory
+var currentItem: String = "gun"
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	navigation_agent.path_desired_distance = 0.5
 	navigation_agent.target_desired_distance = 0.5
-
-	if not useFlashlight:
-		flashlight.hide()
+	
+	# find the inventory
+	inv = get_node("/root/Room/Inventory")
+	if inv:
+		print("Found inventory")
+		inv.item_changed.connect(_on_item_changed)
+		inv.registerCamera(cam)
+	else:
+		push_warning("No inventory found - all items disabled!")
+	
+	flashlight.hide()
 
 	if debugClick:
 		debug_ClickPos = MeshInstance3D.new()
@@ -40,7 +50,10 @@ func _ready():
 	call_deferred("actor_setup")
 
 func _unhandled_input(event: InputEvent) -> void:
-	if useFlashlight and event is InputEventMouseMotion:
+	if not get_viewport().get_camera_3d():
+		return
+	
+	if event is InputEventMouseMotion:
 		# for mouse motion events, point the flashlight where the mouse is looking
 		var eventPos = event.position
 		var worldOrigin = get_viewport().get_camera_3d().project_ray_origin(eventPos)
@@ -49,11 +62,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			PhysicsRayQueryParameters3D.create(worldOrigin, worldOrigin + worldNormal * 100, 0b0001)
 		)
 		if not collision:
-			print("No collision detected")
 			return
 		
 		var worldPos = collision["position"]
-		flashlight.look_at(worldPos)
+		
+		if currentItem == "flashlight":
+			flashlight.look_at(worldPos)
+		elif currentItem == "camera":
+			cam.look_at(worldPos)
 	
 	if event is InputEventMouseButton and event.is_pressed():
 		# for clicks, walk there
@@ -62,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var worldNormal = get_viewport().get_camera_3d().project_ray_normal(eventPos)
 		
 		var collisionMask := 0b0001
-		if shooty:
+		if currentItem == "gun":
 			collisionMask |= 0b0100
 		
 		var collision = get_world_3d().direct_space_state.intersect_ray(
@@ -76,7 +92,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		if collider.collision_layer & 0b0100:
 			# hit an enemy - shoot it!
-			if shooty:
+			if currentItem == "gun":
 				muzzleFlash.show()
 				muzzleFlashCountdown = .05
 				sfxGunshot.play()
@@ -117,3 +133,10 @@ func _physics_process(delta):
 
 	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
 	move_and_slide()
+
+func _on_item_changed(newItem: InventoryItem) -> void:
+	print("Item changed to ", newItem.itemName)
+	flashlight.hide()
+	currentItem = newItem.itemName
+	if currentItem == "flashlight":
+		flashlight.show()

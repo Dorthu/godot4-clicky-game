@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5a1lstsodclc"]
+
+[ext_resource type="Script" path="res://UI/inventory_item.gd" id="1_i4r5w"]
+[ext_resource type="Texture2D" uid="uid://cpebiqjxijgix" path="res://Tex/selected.png" id="2_ggsl7"]
+
+[node name="InventoryItem" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i4r5w")
+
+[node name="Selected" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_ggsl7")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 2
+flip_h = true
+
+[connection signal="button_down" from="TextureButton" to="." method="_on_texture_button_button_down"]
