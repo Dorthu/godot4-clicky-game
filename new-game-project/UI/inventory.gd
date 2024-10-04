@@ -15,6 +15,7 @@ func _on_inventory_item_clicked(clicked: InventoryItem) -> void:
 	selectedItem = clicked
 	if selectedItem.itemName == "camera":
 		$CameraFeed.show()
+	$CurrentItemName.text = selectedItem.itemName
 	emit_signal("item_changed", clicked)
 
 func registerCamera(cam: Node3D) -> void:

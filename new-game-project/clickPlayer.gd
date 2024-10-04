@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 var movement_speed: float = 2.0
 var movement_target_position: Vector3 = Vector3(0.0,0.0,20.0)
@@ -16,7 +17,7 @@ var movement_target_position: Vector3 = Vector3(0.0,0.0,20.0)
 var debug_ClickPos: MeshInstance3D
 var muzzleFlashCountdown: float = 0
 var inv: Inventory
-var currentItem: String = "gun"
+var currentItem: String = "none"
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
@@ -80,6 +81,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var collisionMask := 0b0001
 		if currentItem == "gun":
 			collisionMask |= 0b0100
+		if currentItem == "wallpaper":
+			collisionMask |= 0b10000 # group 5; walls 
 		
 		var collision = get_world_3d().direct_space_state.intersect_ray(
 			PhysicsRayQueryParameters3D.create(worldOrigin, worldOrigin + worldNormal * 100, collisionMask)
@@ -101,6 +104,16 @@ func _unhandled_input(event: InputEvent) -> void:
 					collider.apply_central_impulse((collision["position"] - position).normalized() * 5)
 				if collider is Tentacle:
 					collider.take_damage(1)
+		elif collider.collision_layer & 0b10000:
+			# it's a wallpaper change thingy!
+			if (
+				collider is WallpaperChangeWall
+				and (currentItem == "wallpaper" or currentItem == "scraper")
+				and collider.activeFor(self)
+			):
+				collider.update(self, currentItem)
+			else:
+				set_movement_target(collision["position"])
 		else:
 			# didn't hit an enemy - move
 			var worldPos = collision["position"]
@@ -140,3 +153,9 @@ func _on_item_changed(newItem: InventoryItem) -> void:
 	currentItem = newItem.itemName
 	if currentItem == "flashlight":
 		flashlight.show()
+
+func think(text: String) -> void:
+	$Think.text = text
+	$Think.show()
+	await get_tree().create_timer(3).timeout
+	$Think.hide()

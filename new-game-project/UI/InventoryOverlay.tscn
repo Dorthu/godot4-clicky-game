@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://swpvyr8cfxjk"]
+[gd_scene load_steps=8 format=3 uid="uid://swpvyr8cfxjk"]
 
 [ext_resource type="Script" path="res://UI/inventory.gd" id="1_e83uj"]
 [ext_resource type="PackedScene" uid="uid://b5a1lstsodclc" path="res://UI/InventoryItem.tscn" id="1_poj6w"]
 [ext_resource type="Texture2D" uid="uid://c63n4ttnpv4fx" path="res://Tex/revolver.png" id="2_3syml"]
 [ext_resource type="Texture2D" uid="uid://i6mojwg4g34f" path="res://Tex/flashlight.png" id="3_as0g5"]
 [ext_resource type="Texture2D" uid="uid://rsucikq06ikh" path="res://Tex/camera.png" id="4_yel7t"]
+[ext_resource type="Texture2D" uid="uid://bcpgjuhwa54sc" path="res://Tex/wallpaper_item.png" id="6_gwjmf"]
+[ext_resource type="Texture2D" uid="uid://bhbphwyfc5ktx" path="res://Tex/wallpaper-scraper.png" id="7_lqmuf"]
 
 [node name="InventoryOverlay" type="Control"]
 layout_mode = 3
@@ -24,6 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="InventoryItem" parent="VBoxContainer" instance=ExtResource("1_poj6w")]
+visible = false
 layout_mode = 2
 tex = ExtResource("2_3syml")
 itemName = "gun"
@@ -35,9 +38,20 @@ tex = ExtResource("3_as0g5")
 itemName = "flashlight"
 
 [node name="InventoryItem3" parent="VBoxContainer" instance=ExtResource("1_poj6w")]
+visible = false
 layout_mode = 2
 tex = ExtResource("4_yel7t")
 itemName = "camera"
+
+[node name="InventoryItem5" parent="VBoxContainer" instance=ExtResource("1_poj6w")]
+layout_mode = 2
+tex = ExtResource("7_lqmuf")
+itemName = "scraper"
+
+[node name="InventoryItem4" parent="VBoxContainer" instance=ExtResource("1_poj6w")]
+layout_mode = 2
+tex = ExtResource("6_gwjmf")
+itemName = "wallpaper"
 
 [node name="CameraFeed" type="MarginContainer" parent="."]
 visible = false
@@ -56,6 +70,15 @@ render_target_update_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="CameraFeed/ViewportContainer/SubViewport"]
 
+[node name="CurrentItemName" type="Label" parent="."]
+layout_mode = 1
+offset_right = 215.0
+offset_bottom = 36.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="clicked" from="VBoxContainer/InventoryItem" to="." method="_on_inventory_item_clicked"]
 [connection signal="clicked" from="VBoxContainer/InventoryItem2" to="." method="_on_inventory_item_clicked"]
 [connection signal="clicked" from="VBoxContainer/InventoryItem3" to="." method="_on_inventory_item_clicked"]
+[connection signal="clicked" from="VBoxContainer/InventoryItem5" to="." method="_on_inventory_item_clicked"]
+[connection signal="clicked" from="VBoxContainer/InventoryItem4" to="." method="_on_inventory_item_clicked"]
