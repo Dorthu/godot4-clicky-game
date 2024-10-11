@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://btobfa64h00yh"]
+
+[node name="Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 0
