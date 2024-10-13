@@ -25,7 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not get_viewport().get_camera_3d():
 		return
 		
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		# for clicks, walk there
 		var eventPos = event.position
 		var worldOrigin = get_viewport().get_camera_3d().project_ray_origin(eventPos)
