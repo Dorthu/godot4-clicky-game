@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dinpxp7g2igyx"]
+[gd_scene load_steps=8 format=3 uid="uid://dinpxp7g2igyx"]
 
 [ext_resource type="Script" path="res://Actors/player.gd" id="1_dcob5"]
 [ext_resource type="Texture2D" uid="uid://dmyjk5cecojxx" path="res://Actors/playerForwardLeft.png" id="2_suk31"]
 [ext_resource type="AudioStream" uid="uid://c48qnmdlt8dcs" path="res://Actors/playerFootsteps.ogg" id="3_8bcf5"]
+[ext_resource type="PackedScene" uid="uid://bb6q3nj51o2wm" path="res://UI/MouseHoldLoadingBar.tscn" id="4_d0bga"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_am0es"]
 
@@ -37,3 +38,5 @@ text = "Debug Text"
 [node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_8bcf5")
 parameters/looping = false
+
+[node name="MouseHoldLoadingBar" parent="." instance=ExtResource("4_d0bga")]

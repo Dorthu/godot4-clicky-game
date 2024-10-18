@@ -1,12 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://dodw27uxaskdx"]
+[gd_scene load_steps=20 format=3 uid="uid://dodw27uxaskdx"]
 
 [ext_resource type="Texture2D" uid="uid://b2keubhdxujyh" path="res://Tex/Sheet1/Floor1.png" id="1_k6p0s"]
 [ext_resource type="PackedScene" uid="uid://dinpxp7g2igyx" path="res://Actors/Player.tscn" id="1_sdu8a"]
 [ext_resource type="PackedScene" uid="uid://btobfa64h00yh" path="res://UI/Inventory.tscn" id="2_6eq8a"]
 [ext_resource type="Texture2D" uid="uid://cmsktd88q151s" path="res://Tex/Sheet1/Wood.png" id="3_d6w2y"]
 [ext_resource type="PackedScene" uid="uid://o1erocl0jayn" path="res://HouseParts/WallTile.tscn" id="4_vhj8j"]
+[ext_resource type="Texture2D" uid="uid://b1tbhlnqqqt8s" path="res://Tex/Sheet1/Wall1.png" id="5_biqpo"]
 [ext_resource type="Material" uid="uid://bflpgk6rq6i7r" path="res://Mats/Walls/wallpaper_1.tres" id="5_o5uxs"]
 [ext_resource type="Material" uid="uid://ds08kauy4ktq0" path="res://Mats/Walls/wallpaper_2.tres" id="6_2y7kj"]
+[ext_resource type="Texture2D" uid="uid://gd6bwvuclep" path="res://Tex/Sheet1/Wall2.png" id="6_srvli"]
+[ext_resource type="Script" path="res://Mats/MultiMaterial.gd" id="7_ed832"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_feq0o"]
 vertices = PackedVector3Array(-4.25, 0.5, -4.25, -4.25, 0.5, 4.5, 4.5, 0.5, 4.5, 4.5, 0.5, -4.25)
@@ -30,6 +33,20 @@ uv1_scale = Vector3(10, 1, 1)
 [sub_resource type="PlaneMesh" id="PlaneMesh_hfrvv"]
 material = SubResource("StandardMaterial3D_ckx7l")
 size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36aef"]
+resource_local_to_scene = true
+script = ExtResource("7_ed832")
+CurrentVarient = 0
+DefaultTexture = ExtResource("5_biqpo")
+Variants = Array[Texture2D]([ExtResource("6_srvli")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuyd5"]
+resource_local_to_scene = true
+script = ExtResource("7_ed832")
+CurrentVarient = 0
+DefaultTexture = ExtResource("5_biqpo")
+Variants = Array[Texture2D]([ExtResource("6_srvli")])
 
 [sub_resource type="Environment" id="Environment_jttw3"]
 background_mode = 1
@@ -61,11 +78,11 @@ initialMaterial = ExtResource("5_o5uxs")
 
 [node name="WallTile2" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4.95167)
-initialMaterial = ExtResource("5_o5uxs")
+initialMaterial = SubResource("StandardMaterial3D_36aef")
 
 [node name="WallTile3" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.95167)
-initialMaterial = ExtResource("5_o5uxs")
+initialMaterial = SubResource("StandardMaterial3D_iuyd5")
 
 [node name="WallTile4" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4.95167)

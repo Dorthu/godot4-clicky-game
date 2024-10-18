@@ -12,19 +12,34 @@ var movement_speed: float = 2.0
 var right: bool = false
 var back: bool = false
 
+@onready var tmp_BareWallMat: StandardMaterial3D = preload("res://Mats/Walls/bare_wall.tres")
+
+var renovating: WallTile = null
+
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	navigation_agent.path_desired_distance = 0.5
 	navigation_agent.target_desired_distance = 0.5
 	
+	# subscribe to progress bar filled events
+	$MouseHoldLoadingBar.connect("ProgressComplete", _on_progress_complete)
+	
 	# Make sure to not await during _ready.
 	# call_deferred("actor_setup")
+
+func _on_progress_complete() -> void:
+	if renovating != null:
+		$MouseHoldLoadingBar.stop()
+		renovating.set_material(tmp_BareWallMat)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not get_viewport().get_camera_3d():
 		return
-		
+	
+	if event is InputEventMouseButton and event.is_released() and event.button_index == MOUSE_BUTTON_LEFT:
+		$MouseHoldLoadingBar.stop()
+	
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		# for clicks, walk there
 		var eventPos = event.position
@@ -40,7 +55,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			print("No collision detected")
 			return
 		
-		# var collider: PhysicsBody3D = collision["collider"]
+		var collider: PhysicsBody3D = collision["collider"]
+		if collider is WallTile and collider.is_interactable():
+			$MouseHoldLoadingBar.start()
+			renovating = collider
+			return
 		
 		# move to where we clicked
 		var worldPos = collision["position"]
@@ -54,7 +73,7 @@ func set_movement_target(movement_target: Vector3):
 	print("Moving to ", movement_target)
 
 
-func _physics_process(delta):	
+func _physics_process(_delta):	
 	if not navigation_agent.is_navigation_finished():
 		var current_agent_position: Vector3 = global_position
 		var next_path_position: Vector3 = navigation_agent.get_next_path_position()

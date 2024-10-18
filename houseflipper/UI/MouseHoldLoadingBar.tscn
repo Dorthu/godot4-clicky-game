@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb6q3nj51o2wm"]
+
+[ext_resource type="Script" path="res://UI/mouse_hold_loading_bar.gd" id="1_a2lv3"]
+
+[node name="MouseHoldLoadingBar" type="MarginContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_right = 36.0
+offset_bottom = 27.0
+grow_horizontal = 2
+script = ExtResource("1_a2lv3")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
