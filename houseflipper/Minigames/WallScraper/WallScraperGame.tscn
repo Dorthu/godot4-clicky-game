@@ -1,0 +1,227 @@
+[gd_scene load_steps=16 format=3 uid="uid://dciguoumcqloq"]
+
+[ext_resource type="Script" path="res://Minigames/WallScraper/wall_scraper_game.gd" id="1_54sxy"]
+[ext_resource type="Texture2D" uid="uid://gd6bwvuclep" path="res://Tex/Sheet1/Wall2.png" id="2_2a0tq"]
+[ext_resource type="Texture2D" uid="uid://cmsktd88q151s" path="res://Tex/Sheet1/Wood.png" id="2_3ta01"]
+[ext_resource type="Shader" path="res://Minigames/WallScraper/WallScraperGame.gdshader" id="3_brwy6"]
+[ext_resource type="Texture2D" uid="uid://cihmek4q6s5ib" path="res://Minigames/WallScraper/eyewall.png" id="3_ny8lk"]
+[ext_resource type="Texture2D" uid="uid://ctowbebioy7n6" path="res://Minigames/WallScraper/jumpscare.png" id="6_yd5ug"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nhc48"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_r71rr"]
+viewport_path = NodePath("DrawingZone")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sifkj"]
+resource_local_to_scene = true
+shader = ExtResource("3_brwy6")
+shader_parameter/mask = SubResource("ViewportTexture_r71rr")
+
+[sub_resource type="Gradient" id="Gradient_3fy1s"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_okl8f"]
+gradient = SubResource("Gradient_3fy1s")
+
+[sub_resource type="Animation" id="Animation_lkfgx"]
+resource_name = "jumpscare"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jumpscare:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2.37097, 2.37097), Vector2(5.64516, 5.64516)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOver:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Jumpscare:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BG:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_qvpjp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jumpscare:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.37097, 2.37097)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOver:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Jumpscare:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BG:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mln7a"]
+_data = {
+"RESET": SubResource("Animation_qvpjp"),
+"jumpscare": SubResource("Animation_lkfgx")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_506m8"]
+font_size = 100
+
+[node name="WallScraperGame" type="Node2D"]
+script = ExtResource("1_54sxy")
+
+[node name="DrawingZone" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="Camera2D" type="Camera2D" parent="DrawingZone"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(574, 327.5)
+scale = Vector2(23.9583, 13.6042)
+texture = ExtResource("2_3ta01")
+
+[node name="Eyeball" type="Sprite2D" parent="."]
+position = Vector2(843, 303)
+texture = ExtResource("3_ny8lk")
+
+[node name="A" type="Area2D" parent="Eyeball"]
+position = Vector2(-2, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyeball/A"]
+position = Vector2(-1, -1)
+rotation = 1.34293
+shape = SubResource("CircleShape2D_nhc48")
+
+[node name="B" type="Area2D" parent="Eyeball"]
+position = Vector2(13, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyeball/B"]
+position = Vector2(-59, -21)
+rotation = 1.34293
+shape = SubResource("CircleShape2D_nhc48")
+
+[node name="C" type="Area2D" parent="Eyeball"]
+position = Vector2(51, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyeball/C"]
+position = Vector2(-57, -46)
+rotation = 1.34293
+shape = SubResource("CircleShape2D_nhc48")
+
+[node name="D" type="Area2D" parent="Eyeball"]
+position = Vector2(51, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyeball/D"]
+position = Vector2(-14, -15)
+rotation = 1.34293
+shape = SubResource("CircleShape2D_nhc48")
+
+[node name="E" type="Area2D" parent="Eyeball"]
+position = Vector2(51, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eyeball/E"]
+position = Vector2(-57, -16)
+rotation = 1.34293
+shape = SubResource("CircleShape2D_nhc48")
+
+[node name="Wallpaper" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_sifkj")
+position = Vector2(574.5, 327.5)
+scale = Vector2(24.0208, 13.6042)
+texture = ExtResource("2_2a0tq")
+
+[node name="BG" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(578.5, 325.25)
+scale = Vector2(4.52734, 651.5)
+texture = SubResource("GradientTexture1D_okl8f")
+
+[node name="Jumpscare" type="Sprite2D" parent="."]
+position = Vector2(558.279, 309.5)
+scale = Vector2(2.37097, 2.37097)
+texture = ExtResource("6_yd5ug")
+
+[node name="JumpScareAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mln7a")
+}
+
+[node name="GameOver" type="Label" parent="."]
+visible = false
+offset_left = 230.0
+offset_top = 147.0
+offset_right = 938.0
+offset_bottom = 539.0
+text = "YOU
+DIED"
+label_settings = SubResource("LabelSettings_506m8")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -34,14 +34,14 @@ uv1_scale = Vector3(10, 1, 1)
 material = SubResource("StandardMaterial3D_ckx7l")
 size = Vector2(10, 10)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36aef"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6xn8n"]
 resource_local_to_scene = true
 script = ExtResource("7_ed832")
 CurrentVarient = 0
 DefaultTexture = ExtResource("5_biqpo")
 Variants = Array[Texture2D]([ExtResource("6_srvli")])
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuyd5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6kkr8"]
 resource_local_to_scene = true
 script = ExtResource("7_ed832")
 CurrentVarient = 0
@@ -78,11 +78,11 @@ initialMaterial = ExtResource("5_o5uxs")
 
 [node name="WallTile2" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4.95167)
-initialMaterial = SubResource("StandardMaterial3D_36aef")
+initialMaterial = SubResource("StandardMaterial3D_6xn8n")
 
 [node name="WallTile3" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.95167)
-initialMaterial = SubResource("StandardMaterial3D_iuyd5")
+initialMaterial = SubResource("StandardMaterial3D_6kkr8")
 
 [node name="WallTile4" parent="NavigationRegion3D/BackWall" instance=ExtResource("4_vhj8j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4.95167)

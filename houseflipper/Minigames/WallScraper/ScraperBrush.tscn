@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbwf7wwuwdivd"]
+
+[ext_resource type="Texture2D" uid="uid://jof1axp60xnr" path="res://Minigames/WallScraper/Brush.png" id="1_gyr1b"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y3ucu"]
+radius = 10.9742
+height = 61.9838
+
+[node name="ScraperBrush" type="Area2D"]
+scale = Vector2(1, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 3.13969
+shape = SubResource("CapsuleShape2D_y3ucu")
+
+[node name="Graphic" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_gyr1b")
